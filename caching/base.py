@@ -222,6 +222,11 @@ class CachingQuerySet(models.query.QuerySet):
         qs.timeout = self.timeout
         return qs
 
+    def __deepcopy__(self, memo):
+        timeout = self.timeout
+        c = super(CachingQuerySet, self).__deepcopy__(memo)
+        c.timeout = timeout
+        return c
 
 class CachingMixin(object):
     """Inherit from this class to get caching and invalidation helpers."""
