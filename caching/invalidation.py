@@ -168,7 +168,7 @@ class RedisInvalidator(Invalidator):
 
     @safe_redis(set)
     def get_flush_lists(self, keys):
-        return redis.sunion(map(self.safe_key, keys))
+        return [m for key in keys for m in redis.smembers(self.safe_key(key))]
 
     @safe_redis(None)
     def clear_flush_lists(self, keys):
